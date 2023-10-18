@@ -1,0 +1,10 @@
+{
+  "name": ".Package Generation Tool",
+  "rootNamespace": "PackageGenerationTool",
+  "references": [],
+  "optionalUnityReferences": [],
+  "excludePlatforms": [],
+  "precompiledReferences": [],
+  "defineConstraints": [],
+  "includePlatforms": []
+}

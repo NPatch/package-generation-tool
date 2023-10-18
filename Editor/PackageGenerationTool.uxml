@@ -1,0 +1,23 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <Style src="project://database/Packages/com.tools.package-generation-tool/Editor/PackageGenerationTool.uss?fileID=7433441132597879392&amp;guid=a751c37f07a21444fb0ce1ce564ca19c&amp;type=3#PackageGenerationTool" />
+    <ui:VisualElement name="panel" style="flex-grow: 1; max-height: 500px;">
+        <ui:TextField picking-mode="Ignore" label="Package Name" value="MyAwesomePackage" name="package-name" />
+        <ui:TextField picking-mode="Ignore" label="Company Name" value="MyAwesomeCompany" name="company-name" />
+        <ui:TextField picking-mode="Ignore" label="Package Author" value="AwesomeAuthor" name="package-author" />
+        <ui:Foldout text="Custom Package Name">
+            <ui:Toggle label="Override" name="override-fully-qualified-package-name-toggle" />
+            <ui:TextField picking-mode="Ignore" label="Fully Qualified Package Name" value="com.myawesomecompany.myawesomepackage" readonly="true" name="override-fully-qualified-package-name" style="-unity-background-image-tint-color: rgb(255, 255, 255);" />
+        </ui:Foldout>
+        <ui:Foldout text="Custom DisplayName">
+            <ui:Toggle label="Override" name="override-package-displayname-toggle" />
+            <ui:TextField picking-mode="Ignore" label="Display Name" value="MyAwesomeCompany.MyAwesomePackage" readonly="true" name="override-package-displayname" style="-unity-background-image-tint-color: rgb(255, 255, 255);" />
+        </ui:Foldout>
+        <ui:RadioButtonGroup label="Deployment Type" value="1" choices="Local, Embedded" name="deployment-type" />
+        <ui:TextField picking-mode="Ignore" label="PackageDescription" value="This is a package description" name="package-description" />
+        <ui:TextField picking-mode="Ignore" label="Unity Min Version" value="2022.3" name="unity-min-version" />
+        <ui:TextField picking-mode="Ignore" label="Root Namespace" value="MyAwesomeCompany.MyAwesomePackage" name="root-namespace" />
+        <ui:ListView focusable="true" name="package-dependencies" header-title="List of possible dependencies" show-foldout-header="true" show-bound-collection-size="false" style="justify-content: space-around; align-self: stretch; flex-grow: 1; max-height: 200px;" />
+        <ui:Button text="Refresh Packages" display-tooltip-when-elided="true" enable-rich-text="true" name="refresh-packages-btn" focusable="true" style="visibility: hidden; display: none;" />
+        <ui:Button text="Generate" display-tooltip-when-elided="true" name="generate-package-btn" style="width: 60%; align-self: center; margin-top: 15px; justify-content: flex-start;" />
+    </ui:VisualElement>
+</ui:UXML>

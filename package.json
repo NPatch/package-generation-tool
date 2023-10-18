@@ -1,0 +1,12 @@
+{
+  "name": "com.tools.package-generation-tool",
+  "version": "0.3.0",
+  "displayName": "Package Generation Tool",
+  "description": "Tool that generates the boilerplate and structure for a new Custom Package",
+  "author": "Nikolaos Patsiouras",
+  "unity": "2022.3",
+  "dependencies": {
+    "com.unity.modules.uielements": "1.0.0",
+    "com.unity.nuget.newtonsoft-json": "3.2.1"
+  }
+}

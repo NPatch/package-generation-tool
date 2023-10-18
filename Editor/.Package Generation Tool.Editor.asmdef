@@ -1,0 +1,12 @@
+{
+  "name": ".Package Generation Tool.Editor",
+  "rootNamespace": "PackageGenerationTool.Editor",
+  "references": [],
+  "optionalUnityReferences": [],
+  "excludePlatforms": [],
+  "precompiledReferences": [],
+  "defineConstraints": [],
+  "includePlatforms": [
+    "Editor"
+  ]
+}
