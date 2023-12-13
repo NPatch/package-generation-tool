@@ -1,6 +1,6 @@
 {
   "name": "com.tools.package-generation-tool",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "displayName": "Package Generation Tool",
   "description": "Tool that generates the boilerplate and structure for a new Custom Package",
   "author": "Nikolaos Patsiouras",

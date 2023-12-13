@@ -1,9 +1,7 @@
 {
     "name": "PackageGenerationTool.Editor",
     "rootNamespace": "PackageGenerationTool.Editor",
-    "references": [
-        "Unity.VisualScripting.State.Editor"
-    ],
+    "references": [],
     "includePlatforms": [
         "Editor"
     ],
