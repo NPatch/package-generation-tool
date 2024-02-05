@@ -16,7 +16,10 @@
         <ui:RadioButtonGroup label="Deployment Type" value="1" choices="Local, Embedded" name="deployment-type" />
         <ui:TextField picking-mode="Ignore" label="PackageDescription" value="This is a package description" name="package-description" />
         <ui:TextField picking-mode="Ignore" label="Unity Min Version" value="2022.3" name="unity-min-version" />
-        <ui:TextField picking-mode="Ignore" label="Root Namespace" value="MyAwesomeCompany.MyAwesomePackage" name="root-namespace" />
+        <ui:Foldout text="Custom Root Namespace">
+            <ui:Toggle label="Override" name="override-root-namespace-toggle" />
+            <ui:TextField picking-mode="Ignore" label="Display Name" value="MyAwesomeCompany.MyAwesomePackage" readonly="true" name="override-root-namespace" style="-unity-background-image-tint-color: rgb(255, 255, 255);" />
+        </ui:Foldout>
         <uie:Toolbar name="package-dependencies-toolbar" style="justify-content: space-between;">
             <ui:Label tabindex="-1" text="List of Possible Dependencies" display-tooltip-when-elided="true" name="toolbar-title" style="color: rgb(255, 255, 255);" />
             <uie:ToolbarSearchField focusable="true" name="package-dependencies-search" style="width: 150px;" />

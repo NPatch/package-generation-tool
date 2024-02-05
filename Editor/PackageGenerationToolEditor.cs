@@ -207,6 +207,10 @@ namespace PackageGenerationTool.Editor
         private string override_package_display_name_cached;
         private Toggle override_package_display_name_toggle;
 
+        private TextField override_root_namespace_textfield;
+        private string override_root_namespace_cached;
+        private Toggle override_root_namespace_toggle;
+
         private Button refresh_packages_btn;
         private Button generate_package_btn;
 
@@ -238,6 +242,8 @@ namespace PackageGenerationTool.Editor
                 override_package_name_toggle = root.Q<Toggle>("override-fully-qualified-package-name-toggle");
                 override_package_display_name_textfield = root.Q<TextField>("override-package-displayname");
                 override_package_display_name_toggle = root.Q<Toggle>("override-package-displayname-toggle");
+                override_root_namespace_textfield = root.Q<TextField>("override-root-namespace");
+                override_root_namespace_toggle = root.Q<Toggle>("override-root-namespace-toggle");
                 root_namespace_textfield = root.Q<TextField>("root-namespace");
                 refresh_packages_btn = root.Q<Button>("refresh-packages-btn");
                 generate_package_btn = root.Q<Button>("generate-package-btn");
@@ -269,6 +275,17 @@ namespace PackageGenerationTool.Editor
                 override_package_display_name_textfield.style.opacity = new StyleFloat(0.2f);
                 override_package_display_name_textfield.value = RegeneratePackageDisplayName();
                 override_package_display_name_toggle.RegisterCallback<ChangeEvent<bool>>(OnOverridePackageDisplayNameToggleChanged);
+
+                package_name_textfield.RegisterCallback<ChangeEvent<string>>(OnPackageNameOrCompanyNameChanged);
+                company_textfield.RegisterCallback<ChangeEvent<string>>(OnPackageNameOrCompanyNameChanged);
+            }
+
+            {//Override Root Namespace initialization
+                override_root_namespace_toggle.value = false;
+                override_root_namespace_textfield.isReadOnly = true;
+                override_root_namespace_textfield.style.opacity = new StyleFloat(0.2f);
+                override_root_namespace_textfield.value = RegeneratePackageDisplayName();
+                override_root_namespace_toggle.RegisterCallback<ChangeEvent<bool>>(OnOverrideRootNamespaceToggleChanged);
 
                 package_name_textfield.RegisterCallback<ChangeEvent<string>>(OnPackageNameOrCompanyNameChanged);
                 company_textfield.RegisterCallback<ChangeEvent<string>>(OnPackageNameOrCompanyNameChanged);
@@ -453,6 +470,12 @@ namespace PackageGenerationTool.Editor
                 string new_name = RegeneratePackageDisplayName();
                 override_package_display_name_textfield.value = new_name;
             }
+
+            if (!override_root_namespace_toggle.value)
+            {
+                string new_name = RegeneratePackageDisplayName();
+                override_root_namespace_textfield.value = new_name;
+            }
         }
 
         private void OnOverridePackageNameToggleChanged(ChangeEvent<bool> b)
@@ -493,6 +516,25 @@ namespace PackageGenerationTool.Editor
             }
         }
 
+        private void OnOverrideRootNamespaceToggleChanged(ChangeEvent<bool> b)
+        {
+            override_root_namespace_textfield.isReadOnly = !b.newValue;
+            override_root_namespace_textfield.style.opacity = new StyleFloat((!b.newValue) ? 0.2f : 1.0f);
+            if (!b.newValue)
+            {
+                override_root_namespace_cached = override_root_namespace_textfield.value;
+                override_root_namespace_textfield.value = RegeneratePackageDisplayName();
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(override_root_namespace_cached))
+                {
+                    override_root_namespace_cached = RegeneratePackageDisplayName();
+                }
+                override_root_namespace_textfield.value = override_root_namespace_cached;
+            }
+        }
+
         private string RegenerateFullyQualifiedPackageName()
         {
             string fully_qualified_package_name = string.Format($"com.{company_textfield.value}.{package_name_textfield.value}");
@@ -508,7 +550,7 @@ namespace PackageGenerationTool.Editor
 
         private void OnDependencyVersionOverriden(ChangeEvent<string> evt)
         {
-            Toggle t = (Toggle)evt.target;
+            TextField t = (TextField)evt.target;
             PackageInfoProxy pip = packages[(int)t.userData];
             pip.VersionOverride = evt.newValue;
         }
@@ -524,7 +566,7 @@ namespace PackageGenerationTool.Editor
             string package_name = package_name_textfield.value;
             string company_name = company_textfield.value;
             string author = package_author_textfield.value;
-            string root_namespace = root_namespace_textfield.value;
+            string root_namespace = override_root_namespace_textfield.value;
             string package_display_name = override_package_display_name_textfield.value;
             string package_description = description_textfield.value;
             string unity_min_version = unity_min_version_textfield.value;
@@ -543,12 +585,6 @@ namespace PackageGenerationTool.Editor
                 Dependencies = GeneratePackageDependencyList()
             };
 
-            foreach(SerializableDependencyInfo sdi in spi.Dependencies)
-            {
-                Debug.Log($"{sdi.name}: {sdi.version}");
-            }
-
-            return;
             DirectoryInfo project_root_di = new DirectoryInfo(Application.dataPath).Parent;
             DirectoryInfo package_root_di = null;
             {//Create the package folder first
@@ -588,7 +624,7 @@ namespace PackageGenerationTool.Editor
                 {//Create asmdef
                     SerializableAssemblyDefinition sed = new SerializableAssemblyDefinition()
                     {
-                        Name = company_name + "." + package_name,
+                        Name = company_name + "." + package_name + ".Runtime",
                         RootNamespace = root_namespace
                     };
 
@@ -626,7 +662,7 @@ namespace PackageGenerationTool.Editor
                 SerializableDependencyInfo dependency = new SerializableDependencyInfo()
                 {
                     name = pip.Info.name,
-                    version = pip.Info.version
+                    version = pip.VersionOverride
                 };
 
                 package_dependencies.Add(dependency);
