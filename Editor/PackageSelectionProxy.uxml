@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:engine="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements"
+    xsi:noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd"
+>
+    <engine:MultiColumnListView  fixed-item-height="20" focusable="true" >
+        <!-- Columns and Column aren't Visual Elements or controls; they are considered attributes of MultiColumnListView. -->
+        <engine:Columns>
+            <engine:Column name="selected" title=""/>
+            <engine:Column name="package-name" title="Package Name" width="200"/>
+            <engine:Column name="package-version-override" title="Package Version Override" width="200"/>
+        </engine:Columns>
+    </engine:MultiColumnListView >
+</engine:UXML>
